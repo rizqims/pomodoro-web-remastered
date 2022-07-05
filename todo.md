@@ -3,5 +3,5 @@
 
 - Repeat Done
 - Pause Done
-- Resume
-- Stop
+- Resume Done
+- Stop Done

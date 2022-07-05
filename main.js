@@ -1,5 +1,5 @@
 let globeDur, lanjut, heg;
-let isClicked = false;
+let isClicked = false, isStopped = false;
 
 function startTimer(duration, display) {
     var timer = duration,
@@ -18,16 +18,20 @@ function startTimer(duration, display) {
         if (isClicked) {
             clearInterval(times);
         }
-        if (--timer < 0) {
+
+        if (--timer < 0 || isStopped) {
             $('#ji').text('Timer Done');
+            $('head title', window.parent.document).text('Pomodoro Web');
+            isClicked = false;
+            isStopped = false;
             clearInterval(times);
         }
     }, 1000);
-
 }
 
 
 $(function () {
+
     $("form").on("submit", function (event) {
         event.preventDefault();
         var aj = $(this).serializeArray();
@@ -36,14 +40,8 @@ $(function () {
         globeDur = jk;
         console.log(globeDur);
 
-        // $('#init').hide();
-        // $('.loop').hide();
-
-        // console.log(ji);
-
         // looks good
-        var time = jk,
-            display = $('#ji');
+        var time = jk,display = $('#ji');
         startTimer(time, display);
     });
 
@@ -56,6 +54,17 @@ $(function () {
         console.log(lanjut)
     });
 
+    $('#resumeTimer').on("click", function () {
+        isClicked = false;
+        startTimer(lanjut, $('#ji'));
+    });
+
+    $('#stopTimer').on("click", function () {
+        isStopped = true;
+        
+        $('#ji').text('Timer Done');
+        $('head title', window.parent.document).text('Pomodoro Web');
+    });
 
     $('#hah').on("click", function () {
         $('#ji').fadeOut(1000, "linear");
